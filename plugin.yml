@@ -1,0 +1,90 @@
+name: RegionDefend
+main: Georggi\RegionDefend\Main
+version: 1.0.0
+api: [1.6.0]
+load: POSTWORLD
+author: Georggi
+commands:
+    region:
+        description: "Allows you to manage regions."
+        usage: "/region <pos1/pos2/claim/list/flag/delete/addmember/addowner/removeowner/removemember>"
+        permission: regiondefend.command.region
+permissions:
+    regiondefend:
+        description: "Allows access to all RegionDefend features."
+        default: op
+        children:
+            regiondefend.access:
+                description: "Allows access to editing terrain in RegionDefend regions."
+                default: op
+            regiondefend.command:
+                description: "Allows access to all RegionDefend commands."
+                default: op
+                children:
+                    regiondefend.command.region:
+                        description: "Allows access to the region command."
+                        default: op
+                        children:
+                            regiondefend.command.region.pos1:
+                                description: "Allows access to the RegionDefend pos1 subcommand."
+                                default: op
+                            regiondefend.command.region.pos2:
+                                description: "Allows access to the RegionDefend pos2 subcommand."
+                                default: op
+                            regiondefend.command.region.claim:
+                                description: "Allows access to the RegionDefend claim subcommand."
+                                default: op
+                            regiondefend.command.region.list:
+                                description: "Allows access to the RegionDefend list subcommand."
+                                default: op
+                            regiondefend.command.region.flag:
+                                description: "Allows access to the RegionDefend flag subcommand."
+                                default: op
+                            regiondefend.command.region.delete:
+                                description: "Allows access to the RegionDefend delete subcommand."
+                                default: op
+                            regiondefend.command.region.addmember:
+                                description: "Allows access to the RegionDefend addmember subcommand."
+                                default: op
+                            regiondefend.command.region.addowner:
+                                description: "Allows access to the RegionDefend addowner subcommand."
+                                default: op
+            regiondefend.edit:
+                description: "Allow to edit other's regions."
+                default: op
+                children:
+                    regiondefend.edit.others:
+                        description: "Allow to edit other's regions."
+                        default: op
+            regiondefend.regionsize:
+                desription: "Not needed thing"
+                default: op
+                children:
+                    regiondefend.regionsize.30000:
+                        desription: "Not needed thing"
+                        default: op
+                    regiondefend.regionsize.50000:
+                        desription: "Not needed thing"
+                        default: op
+                    regiondefend.regionsize.100000:
+                        desription: "Not needed thing"
+                        default: op
+                    regiondefend.regionsize.150000:
+                        desription: "Not needed thing"
+                        default: op
+            regiondefend.regionnumber:
+                desription: "Not needed thing"
+                default: op
+                children:
+                    regiondefend.regionnumber.2:
+                        desription: "Not needed thing"
+                        default: op
+                    regiondefend.regionnumber.4:
+                        desription: "Not needed thing"
+                        default: op
+                    regiondefend.regionnumber.7:
+                        desription: "Not needed thing"
+                        default: op
+                    regiondefend.regionnumber.10:
+                        desription: "Not needed thing"
+                        default: op    
