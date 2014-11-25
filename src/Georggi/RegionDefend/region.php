@@ -33,7 +33,7 @@ class region {
     public function addMember($NewMember) {
         $this->members[] = $NewMember;
         $this->save();
-        $this->plugin->saveAreas();
+        $this->plugin->saveregions();
         return $this->members;
     }
     public function getPos1() {
@@ -45,19 +45,19 @@ class region {
     public function addOwner($NewOwner) {
         $this->owners[] = $NewOwner;
         $this->save();
-        $this->plugin->saveAreas();
+        $this->plugin->saveregions();
         return $this->owners;
     }
     public function removeOwner($Owner) {
         unset($this->owners[array_search($Owner,  $this->owners)]);
         $this->save();
-        $this->plugin->saveAreas();
+        $this->plugin->saveregions();
         return $this->owners;
     }
     public function removeMember($Member) {
         unset($this->members[array_search($Member,  $this->members)]);
         $this->save();
-        $this->plugin->saveAreas();
+        $this->plugin->saveregions();
         return $this->members;
     }
     public function getName() {
@@ -72,7 +72,7 @@ class region {
     public function setFlag($flag,$value) {
         $this->flags[$flag] = $value;
         $this->save();
-        $this->plugin->saveAreas();
+        $this->plugin->saveregions();
         return $value;
     }
     public function contains($ppos) {
@@ -85,7 +85,7 @@ class region {
     public function toggleFlag($flag) {
         $this->flags[$flag] = !$this->flags[$flag];
         $this->save();
-        $this->plugin->saveAreas();
+        $this->plugin->saveregions();
         return $this->flags[$flag];
     }
     public function getData() {
@@ -97,14 +97,14 @@ class region {
                         "pos2" => array($this->pos2->getX(),$this->pos2->getY(),$this->pos2->getZ()));
     }
     public function save() {
-        $this->plugin->areas[$this->name] = $this;
-        $this->plugin->areadata[$this->name] = $this->getData();
+        $this->plugin->regions[$this->name] = $this;
+        $this->plugin->regiondata[$this->name] = $this->getData();
     }
     public function delete() {
         $name = $this->getName();
-        unset($this->plugin->areas[$name]);
-        unset($this->plugin->areadata[$name]);
-        $this->plugin->saveAreas();
+        unset($this->plugin->regions[$name]);
+        unset($this->plugin->regiondata[$name]);
+        $this->plugin->regionAreas();
     }
 }
 
