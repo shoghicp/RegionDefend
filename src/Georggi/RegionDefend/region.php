@@ -104,7 +104,7 @@ class region {
         $name = $this->getName();
         unset($this->plugin->regions[$name]);
         unset($this->plugin->regiondata[$name]);
-        $this->plugin->regionAreas();
+        $this->plugin->saveregions();
     }
 }
 
