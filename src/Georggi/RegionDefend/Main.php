@@ -94,14 +94,8 @@ class Main extends PluginBase implements Listener {
                                 $number = 0;
                                 foreach($this->regions as $region){
                                     $owners = $region->getOwners();
-                                    if(is_array($owners)){
-                                        if(in_array($p->getName(), $owners)){
-                                            $number = $number+1;
-                                        }
-                                    } else {
-                                        if($owners === $p->getName()){
-                                            $number = $number+1;
-                                        }
+                                    if(in_array($p->getName(), $owners)){
+                                        $number = $number+1;
                                     }
                                 }
                                 $distance = $this->pos1[$n]->distanceSquared($this->pos2[$n]);
@@ -326,20 +320,11 @@ class Main extends PluginBase implements Listener {
                         if(isset($this->regions[strtolower($args[1])])) {
                             $nickname = $p->getName();
                             $region = $this->regions[strtolower($args[1])];
-                            if(is_array($region->getOwners())){
-                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    $region->delete();
-                                    $o = "Region deleted!";
-                                } else { 
-                                    $o = "You can't edit this region";
-                                }
-                            }else{
-                                if($region->getOwners() === $nickname || ($p->hasPermission("regiondefend.edit.others"))){
-                                    $region->delete();
-                                    $o = "Region deleted!";
-                                } else { 
-                                    $o = "You can't edit this region";
-                                }  
+                            if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
+                                $region->delete();
+                                $o = "Region deleted!";
+                            } else { 
+                                $o = "You can't edit this region";
                             }
                         } else {
                             $o = "Region does not exist.";
@@ -355,33 +340,19 @@ class Main extends PluginBase implements Listener {
                 if($p->hasPermission("regiondefend") || $p->hasPermission("regiondefend.command") || $p->hasPermission("regiondefend.command.region") || $p->hasPermission("regiondefend.command.region.addmember")) {
                     if(isset($args[1])) {
                         if(isset($this->regions[strtolower($args[1])])) {
-                            $region = $this->regions[strtolower($args[1])];
-                            $nickname = $p->GetName();
-                            $Owners = $region->getOwners();
-                            if(is_array($Owners)){
-                                if(in_array($nickname, $Owners) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])) {
-                                        $NewMember = $args[2];
-                                        $region->addMember($NewMember);
-                                        $o = "You have successfully added $NewMember as a member. ";
-                                    } else {
-                                        $o = "Please enter a nickname.";
-                                    }
+                        $region = $this->regions[strtolower($args[1])];
+                        $nickname = $p->GetName();
+                        $Owners = $region->getOwners();
+                            if(in_array($nickname, $Owners) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(isset($args[2])) {
+                                    $NewMember = $args[2];
+                                    $region->addMember($NewMember);
+                                    $o = "You have successfully added $NewMember as a member. ";
                                 } else {
-                                    $o = "You are not owner of this region.";
+                                    $o = "Please enter a nickname.";
                                 }
-                            }else{
-                                if($Owners === $nickname || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])) {
-                                        $NewMember = $args[2];
-                                        $region->addMember($NewMember);
-                                        $o = "You have successfully added $NewMember as a member. ";
-                                    } else {
-                                        $o = "Please enter a nickname.";
-                                    }
-                                } else {
-                                    $o = "You are not owner of this region.";
-                                }
+                            } else {
+                                 $o = "You are not owner of this region.";
                             }
                         } else {
                             $o = "Region doesn't exist.";
@@ -399,30 +370,16 @@ class Main extends PluginBase implements Listener {
                         if(isset($this->regions[strtolower($args[1])])) {
                             $region = $this->regions[strtolower($args[1])];
                             $nickname = $p->GetName();
-                            if(is_array($region->getOwners())){
-                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])) {
-                                        $NewOwner = $args[2];
-                                        $region->addOwner($NewOwner);
-                                        $o = "You have successfully added $NewOwner as a owner. ";
-                                    } else {
-                                        $o = "Please enter a nickname.";
-                                    }
+                            if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(isset($args[2])) {
+                                    $NewOwner = $args[2];
+                                    $region->addOwner($NewOwner);
+                                    $o = "You have successfully added $NewOwner as a owner. ";
                                 } else {
-                                    $o = "You are not owner of this region.";
+                                    $o = "Please enter a nickname.";
                                 }
-                            }else{
-                                if($region->getOwners() === $nickname || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])) {
-                                        $NewOwner = $args[2];
-                                        $region->addOwner($NewOwner);
-                                        $o = "You have successfully added $NewOwner as a owner. ";
-                                    } else {
-                                        $o = "Please enter a nickname.";
-                                    }
-                                } else {
-                                    $o = "You are not owner of this region.";
-                                }
+                            } else {
+                                $o = "You are not owner of this region.";
                             }
                         } else {
                             $o = "Region doesn't exist.";
@@ -440,40 +397,21 @@ class Main extends PluginBase implements Listener {
                         if(isset($this->regions[strtolower($args[1])])) {
                             $region = $this->regions[strtolower($args[1])];
                             $nickname = $p->GetName();
-                            if(is_array($region->getOwners())){
-                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])){
-                                        $Owner_To_Remove = $args[2];
-                                        $Owners = $region->getOwners();
-                                        if(in_array($Owner_To_Remove, $Owners)){
-                                            $region->removeOwner($Owner_To_Remove);
-                                            $o = "Player $Owner_To_Remove removed from owners succesfully.";
-                                        } else {
-                                            $o = "Player is not an owner of this region.";
-                                        }
+                            if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(isset($args[2])){
+                                    $Owner_To_Remove = $args[2];
+                                    $Owners = $region->getOwners();
+                                    if(in_array($Owner_To_Remove, $Owners)){
+                                        $region->removeOwner($Owner_To_Remove);
+                                        $o = "Player $Owner_To_Remove removed from owners succesfully.";
                                     } else {
-                                        $o = "Specify a player to remove";
+                                        $o = "Player is not an owner of this region.";
                                     }
                                 } else {
-                                    $o = "You are not owner of this region.";
+                                    $o = "Specify a player to remove";
                                 }
                             } else {
-                                if(($region->getOwners() === $nickname) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])){
-                                        $Owner_To_Remove = $args[2];
-                                        $Owners = $region->getOwners();
-                                        if($Owner_To_Remove === $Owners){
-                                            $region->removeOwner($Owner_To_Remove);
-                                            $o = "Player $Owner_To_Remove removed from owners succesfully.";
-                                        } else {
-                                            $o = "Player is not an owner of this region.";
-                                        }
-                                    } else {
-                                        $o = "Specify a player to remove";
-                                    }
-                                } else {
-                                    $o = "You are not owner of this region.";
-                                }
+                                $o = "You are not owner of this region.";
                             }
                         } else {
                             $o = "Region doesn't exist.";
@@ -491,40 +429,21 @@ class Main extends PluginBase implements Listener {
                         if(isset($this->regions[strtolower($args[1])])) {
                             $region = $this->regions[strtolower($args[1])];
                             $nickname = $p->GetName();
-                            if(is_array($region->getOwners())){
-                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])){
-                                        $Member_To_Remove = $args[2];
-                                        $Members = $region->getMembers();
-                                        if(in_array($Member_To_Remove, $Members)){
-                                            $region->removeMember($Member_To_Remove);
-                                            $o = "Player $Member_To_Remove removed from owners succesfully.";
-                                        } else {
-                                            $o = "Player is not an member of this region.";
-                                        }
+                            if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(isset($args[2])){
+                                    $Member_To_Remove = $args[2];
+                                    $Members = $region->getMembers();
+                                    if(in_array($Member_To_Remove, $Members)){
+                                        $region->removeMember($Member_To_Remove);
+                                        $o = "Player $Member_To_Remove removed from owners succesfully.";
                                     } else {
-                                        $o = "Specify a player to remove";
+                                        $o = "Player is not an member of this region.";
                                     }
                                 } else {
-                                    $o = "You are not owner of this region.";
+                                    $o = "Specify a player to remove";
                                 }
                             } else {
-                                if(($region->getOwners() === $nickname) || ($p->hasPermission("regiondefend.edit.others"))){
-                                    if(isset($args[2])){
-                                        $Member_To_Remove = $args[2];
-                                        $Members = $region->getMembers();
-                                        if($Member_To_Remove === $Members) {
-                                            $region->removeMember($Member_To_Remove);
-                                            $o = "Player $Member_To_Remove removed from owners succesfully.";
-                                        } else {
-                                            $o = "Player is not an member of this region.";
-                                        }
-                                    } else {
-                                        $o = "Specify a player to remove";
-                                    }
-                                } else {
-                                    $o = "You are not owner of this region.";
-                                }
+                                $o = "You are not owner of this region.";
                             }
                         } else {
                             $o = "Region doesn't exist.";
@@ -609,29 +528,16 @@ class Main extends PluginBase implements Listener {
                     $array_members = $region->getMembers();
                     $array_owners = $region->getOwners();
                     if($region->contains($pos) && $region->getFlag("chest")){
-                        if(is_array($array_members) || is_array($array_owners)){
-                            if(in_array($block_main, $blocklist) && !(in_array($nickname, $array_members) || in_array($nickname, $array_owners))){
-                                $cancel = true;
-                                $o = "You can't interact with this block here";
-                                $p->sendMessage($o); 
-                            }
-                            if(in_array($item_main, $itemlist) && !(in_array($nickname, $array_members) || in_array($nickname, $array_owners))){
-                                $cancel = true; 
-                                $o = "You can't interact using this item here";
-                                $p->sendMessage($o); 
-                            }
-                        } else {
-                            if(in_array($block_main, $blocklist) && !(($nickname === $array_members) || ($nickname === $array_owners))){
-                                $cancel = true;
-                                $o = "You can't interact with this block here";
-                                $p->sendMessage($o);
-                            }
-                            if(in_array($item_main, $itemlist) && !(($nickname === $array_members) || ($nickname === $array_owners))){
-                                $cancel = true; 
-                                $o = "You can't interact using this item here";
-                                $p->sendMessage($o);
-                            }
-                        } 
+                        if(in_array($block_main, $blocklist) && !(in_array($nickname, $array_members) || in_array($nickname, $array_owners))){
+                            $cancel = true;
+                            $o = "You can't interact with this block here";
+                            $p->sendMessage($o); 
+                        }
+                        if(in_array($item_main, $itemlist) && !(in_array($nickname, $array_members) || in_array($nickname, $array_owners))){
+                            $cancel = true; 
+                            $o = "You can't interact using this item here";
+                            $p->sendMessage($o); 
+                        }
                     }
                 }        
             }
@@ -675,19 +581,11 @@ class Main extends PluginBase implements Listener {
             $array_members = $region->getMembers();
             $array_owners = $region->getOwners();
             if($region->contains($pos) && $region->getFlag("edit") && !(($p->hasPermission("regiondefend")) || ($p->hasPermission("regiondefend.access")))) {
-                if(is_array($array_members) || is_array($array_owners)){ 
-                    if( !(in_array($nickname, $array_members) || in_array($nickname, $array_members) ) ) {
-                        $cancel = true;
-                        $o = "§4You can't break blocks hear.";
-                        $p->sendMessage($o);
-                    }
-                } else {     
-                    if(!($nickname === $array_members || $nickname === $array_owners)){
-                        $cancel = true;
-                        $o = "§4You can't break blocks hear.";
-                        $p->sendMessage($o);
-                    }
-                }        
+                if( !(in_array($nickname, $array_members) || in_array($nickname, $array_members) ) ) {
+                    $cancel = true;
+                    $o = "§4You can't break blocks hear.";
+                    $p->sendMessage($o);
+                }
             }
         }
         if($cancel) {
@@ -709,18 +607,10 @@ class Main extends PluginBase implements Listener {
             $array_members = $region->getMembers();
             $array_owners = $region->getOwners();
             if($region->contains($pos) && $region->getFlag("edit") && !($p->hasPermission("regiondefend") || $p->hasPermission("regiondefend.access"))){
-                if(is_array($array_members) || is_array($array_owners)){ 
-                    if(!(in_array($nickname, $array_members) || in_array($nickname, $array_members) ) ) {
-                        $cancel = true;
-                        $o = "§4You can't place blocks hear.";
-                        $p->sendMessage($o);
-                    }
-                } else {     
-                    if(!($nickname === $array_members || $nickname === $array_owners)){
-                        $cancel = true;
-                        $o = "§4You can't place blocks hear.";
-                        $p->sendMessage($o);
-                    }
+                if(!(in_array($nickname, $array_members) || in_array($nickname, $array_members) ) ) {
+                    $cancel = true;
+                    $o = "§4You can't place blocks hear.";
+                    $p->sendMessage($o);
                 }
             }   
         }
