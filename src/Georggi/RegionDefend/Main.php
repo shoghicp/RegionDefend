@@ -282,7 +282,7 @@ class Main extends PluginBase implements Listener {
                         if(isset($this->regions[strtolower($args[1])])){
                             $nickname = $p->getName();
                             $region = $this->regions[strtolower($args[1])];
-                            if(in_array($region->getOwners(), $nickname) || ($p->hasPermission("regiondefend.edit.others") ) ){   
+                            if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others") ) ){   
                                 if(isset($args[2])) {
                                     if(isset($region->flags[strtolower($args[2])])) {
                                         $flag = strtolower($args[2]);
@@ -400,7 +400,7 @@ class Main extends PluginBase implements Listener {
                             $region = $this->regions[strtolower($args[1])];
                             $nickname = $p->GetName();
                             if(is_array($region->getOwners())){
-                                if(in_array($region->getOwners(), $nickname) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
                                     if(isset($args[2])) {
                                         $NewOwner = $args[2];
                                         $region->addOwner($NewOwner);
@@ -412,7 +412,7 @@ class Main extends PluginBase implements Listener {
                                     $o = "You are not owner of this region.";
                                 }
                             }else{
-                                if($region->getOwners() == $nickname || ($p->hasPermission("regiondefend.edit.others"))){
+                                if($region->getOwners() === $nickname || ($p->hasPermission("regiondefend.edit.others"))){
                                     if(isset($args[2])) {
                                         $NewOwner = $args[2];
                                         $region->addOwner($NewOwner);
@@ -441,7 +441,7 @@ class Main extends PluginBase implements Listener {
                             $region = $this->regions[strtolower($args[1])];
                             $nickname = $p->GetName();
                             if(is_array($region->getOwners())){
-                                if(in_array($region->getOwners(), $nickname) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
                                     if(isset($args[2])){
                                         $Owner_To_Remove = $args[2];
                                         $Owners = $region->getOwners();
@@ -492,7 +492,7 @@ class Main extends PluginBase implements Listener {
                             $region = $this->regions[strtolower($args[1])];
                             $nickname = $p->GetName();
                             if(is_array($region->getOwners())){
-                                if(in_array($region->getOwners(), $nickname) || ($p->hasPermission("regiondefend.edit.others"))){
+                                if(in_array($nickname, $region->getOwners()) || ($p->hasPermission("regiondefend.edit.others"))){
                                     if(isset($args[2])){
                                         $Member_To_Remove = $args[2];
                                         $Members = $region->getMembers();
