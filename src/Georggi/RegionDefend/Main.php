@@ -99,9 +99,8 @@ class Main extends PluginBase implements Listener {
                                     }
                                 }
                                 $distance = $this->pos1[$n]->distanceSquared($this->pos2[$n]);
-                                $Intersection;
                                 if(($MaxRegionSize > $distance && $MaxRegionNumber > $number) || $p-> hasPermission("regiondefend.regionsize.infinity")){
-                                    if($this->pos1[$n]->getX() >= $this->pos2[$n]->getX()){
+                                    /*if($this->pos1[$n]->getX() >= $this->pos2[$n]->getX()){
                                         for($CoordX = $this->pos1[$n]->getX(); $CoordX <= $this->pos2[$n]->getX(); $CoordX++){
                                             if($this->pos1[$n]->getY() >= $this->pos2[$n]->getY()){
                                                 for($CoordY = $this->pos1[$n]->getY(); $CoordY <= $this->pos2[$n]->getY(); $CoordY++){
@@ -223,7 +222,7 @@ class Main extends PluginBase implements Listener {
                                                                     break(4);
                                                                 }else{
                                                                     $Intersection = false;
-                                                                    break(4);
+                                                                    reak(4);
                                                                 }   
                                                             }    
                                                         } 
@@ -231,16 +230,16 @@ class Main extends PluginBase implements Listener {
                                                 }
                                             }    
                                         }
-                                    }
-                                    if($Intersection === false){
+                                    }*/
+                                    //if($Intersection === false){
                                         $region = new region(array("owners" => array($p->getName()),"name" => strtolower($args[1]),"flags" => array("edit" => true,"god" => false,"chest" => true), "members" => array($p->getName()),"pos1" => array($this->pos1[$n]->getX(),$this->pos1[$n]->getY(),$this->pos1[$n]->getZ()),"pos2" => array($this->pos2[$n]->getX(),$this->pos2[$n]->getY(),$this->pos2[$n]->getZ())),$this);
                                         $this->saveregions();
                                         unset($this->pos1[$n]);
                                         unset($this->pos2[$n]);
                                         $o = "Region created!";
-                                        }else{
+                                      /*  }else{
                                             $o = "Your region intersects with another region!";
-                                        }
+                                        }*/
                                 } else {
                                     if($MaxRegionSize > $distance){
                                         $o = "You can't create that big region.\nYour size $distance. Max size $MaxRegionSize.";
