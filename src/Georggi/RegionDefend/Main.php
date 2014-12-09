@@ -11,6 +11,7 @@ use pocketmine\IPlayer;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as Color;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -35,6 +36,12 @@ class Main extends PluginBase implements Listener {
         $this->regiondata = yaml_parse(file_get_contents($this->getDataFolder() . "regions.dat"));
         foreach($this->regiondata as $data) {
             $region = new region($data,$this);
+        }
+        foreach($this->regions as $region){
+            $Flags = $region->getFlags();
+            if(in_array("pvp", $Flags)){
+                $region->setFlag("pvp", true);
+            }
         }
     } 
     public function onCommand(CommandSender $p,Command $cmd,$label,array $args) {
@@ -244,7 +251,7 @@ class Main extends PluginBase implements Listener {
                                                                     break(4);
                                                                 }else{
                                                                     $Intersection = false;
-                                                                    reak(4);
+                                                                    break(4);
                                                                 }   
                                                             }    
                                                         } 
@@ -256,7 +263,7 @@ class Main extends PluginBase implements Listener {
                 /*if($Intersection != false){
                     $MESSAGE_TO_PLAYER = "Your region intersects with another region!";
                 }*/
-                $region = new region(array("owners" => array($p->getName()),"name" => strtolower($args[1]),"flags" => array("edit" => true,"god" => false,"chest" => true), "members" => array($p->getName()),"pos1" => array($this->pos1[$n]->getX(),$this->pos1[$n]->getY(),$this->pos1[$n]->getZ()),"pos2" => array($this->pos2[$n]->getX(),$this->pos2[$n]->getY(),$this->pos2[$n]->getZ())),$this);
+                $region = new region(array("owners" => array($p->getName()),"name" => strtolower($args[1]),"flags" => array("edit" => true,"god" => false,"chest" => true,"pvp" => true), "members" => array($p->getName()),"pos1" => array($this->pos1[$n]->getX(),$this->pos1[$n]->getY(),$this->pos1[$n]->getZ()),"pos2" => array($this->pos2[$n]->getX(),$this->pos2[$n]->getY(),$this->pos2[$n]->getZ())),$this);
                 $this->saveregions();
                 unset($this->pos1[$n]);
                 unset($this->pos2[$n]);
@@ -292,11 +299,11 @@ class Main extends PluginBase implements Listener {
                     break;
                 }
                 if(!isset($args[2])) {
-                    $MESSAGE_TO_PLAYER = "[RegionDefend] Please specify a flag. (Flags: edit, god, chest)";
+                    $MESSAGE_TO_PLAYER = "[RegionDefend] Please specify a flag. (Flags: edit, god, chest, pvp)";
                     break;
                 }
                 if(!isset($region->flags[strtolower($args[2])])) {
-                    $MESSAGE_TO_PLAYER = "[RegionDefend] Flag not found. (Flags: edit, god, chest)";
+                    $MESSAGE_TO_PLAYER = "[RegionDefend] Flag not found. (Flags: edit, god, chest, pvp)";
                     break;
                 }
                 $flag = strtolower($args[2]);
@@ -485,12 +492,12 @@ class Main extends PluginBase implements Listener {
                 $p->sendMessage($Owner);
                 }
                 break;
-           /* case "wand":
+            case "wand":
                 if($p->hasPermission("regiondefend") || $p->hasPermission("regiondefend.command") || $p->hasPermission("regiondefend.command.region") || $p->hasPermission("regiondefend.command.region.wand")){
-                    $wand = ITEM::WOODEN_AXE;
-                    $p->getInventory()->AddItem($wand);              
+                    $p->getInventory()->addItem(clone $wand);
+                    $MESSAGE_TO_PLAYER = "[RegionDefend] Gived a wand to user.";
                 }
-                break;*/
+                break;
                 //Actually crashes the server if I remember correctly
             default:
                 return false;
@@ -539,6 +546,28 @@ class Main extends PluginBase implements Listener {
                         }
                     }
                 }        
+            }
+            if($cancel) {
+                $event->setCancelled();
+            }
+        }
+    }
+    /**
+    * @param EntityDamageEvent $event
+    *
+    * @ignoreCancelled true
+    */
+    public function onHurtByPlayer(EntityDamageByEntityEvent $event) {
+        if(($event->getEntity() instanceof Player) && ($event->getDamager() instanceof Player)) {
+            $Attacker = $event->getDamager();
+            $p = $event->getEntity();
+            $cancel = false;
+            $pos = new Vector3($p->getX(),$p->getY(),$p->getZ());
+            foreach($this->regions as $region) {
+                if($region->contains($pos) && !$region->getFlag("pvp")) {
+                $cancel = true;
+                $Attacker->sendMessage("You can't pvp here!");
+                }
             }
             if($cancel) {
                 $event->setCancelled();
