@@ -119,8 +119,8 @@ class Main extends PluginBase implements Listener {
                     }
                 }
                 $distance = $this->pos1[$n]->distanceSquared($this->pos2[$n]);
-                if(!(($MaxRegionSize > $distance && $MaxRegionNumber > $number) || $p-> hasPermission("regiondefend.regionsize.infinity"))){
-                    if($MaxRegionSize > $distance){
+                if(($MaxRegionSize < $distance || $MaxRegionNumber <= $number) || !$p->hasPermission("regiondefend.regionsize.infinity")){
+                    if($MaxRegionSize < $distance){
                         $MESSAGE_TO_PLAYER = "[RegionDefend] You can't create that big region.\nYour size $distance. Max size $MaxRegionSize.";
                     } elseif($MaxRegionNumber <= $number){
                         $MESSAGE_TO_PLAYER = "[RegionDefend] You reached limit for regions.\nYour number of regions $number. Max number $MaxRegionNumber.";
