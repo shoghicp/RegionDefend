@@ -24,13 +24,9 @@ use pocketmine\Server;
 class Main extends PluginBase implements Listener {
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this,$this);
+        $this->saveDefaultConfig();
         if(!file_exists($this->getDataFolder() . "regions.dat")) {
-            @mkdir($this->getDataFolder());
             file_put_contents($this->getDataFolder() . "regions.dat",yaml_emit(array()));
-        }
-        if(!file_exists($this->getDataFolder() . "config.yml")) {
-            @mkdir($this->getDataFolder());
-            file_put_contents($this->getDataFolder() . "config.yml",$this->getResource("config.yml"));
         }
         $this->regions = array();
         $this->regiondata = yaml_parse(file_get_contents($this->getDataFolder() . "regions.dat"));
